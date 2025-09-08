@@ -676,7 +676,7 @@ class ApiBuilder
 
             $string = Arr::get($data, $field);
 
-            if (stripos($string, '@') !== false) {
+            if ($string !== null && stripos($string, '@') !== false) {
                 $obfuscatedString = ObfuscationHelper::obfuscate($string, 4);
             } else {
                 $obfuscatedString = ObfuscationHelper::obfuscate($string, 4);
