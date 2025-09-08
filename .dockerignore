@@ -1,0 +1,6 @@
+vendor/
+Dockerfile
+docker-compose.override.yaml
+.git
+.gitignore
+coverage
