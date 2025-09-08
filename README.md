@@ -125,3 +125,59 @@ This package is useful to consume API's, here is the instruction for installatio
 - Here you will get object in response, In each response you will get success either true or false
 - You will also get status code for more information about response please check below doc.
 - http://docs.guzzlephp.org/en/latest/psr7.html#responses
+
+## Docker Development Setup
+
+This package includes a Docker development environment for easier testing and development.
+
+### Prerequisites
+
+- Docker and Docker Compose installed on your system
+
+### Getting Started
+
+1. Build and start the Docker container:
+   ```bash
+   docker-compose -f dev-docker-compose.yaml up -d
+   ```
+
+2. Enter the container to work with the code:
+   ```bash
+   docker exec -it api-helper bash
+   ```
+
+3. Inside the container, the package will automatically install dependencies using Composer on first run.
+
+### Volume Mounting
+
+The current directory is mounted to `/app` in the container. The `vendor` directory is excluded from the volume mount to prevent conflicts between host and container dependencies.
+
+### Running Tests
+
+You can run the PHPUnit tests using the composer script:
+
+```bash
+docker exec api-helper composer test
+```
+
+Or run the tests directly with phpunit:
+
+```bash
+docker exec api-helper /app/vendor/bin/phpunit
+```
+
+### Running Tests with Coverage
+
+To run tests with code coverage reporting:
+
+```bash
+docker exec api-helper composer test-coverage
+```
+
+This will generate an HTML coverage report in the `coverage` directory, which you can view by opening `coverage/index.html` in a web browser.
+
+### Development Workflow
+
+1. Make changes to the code on your host machine
+2. The changes will be immediately reflected in the container
+3. Run tests or other commands inside the container as needed
