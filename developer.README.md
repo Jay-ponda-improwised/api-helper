@@ -176,6 +176,28 @@ This will generate an HTML coverage report in the `coverage` directory, which yo
 
 Note: Coverage reports require Xdebug to be enabled, which will slow down test execution. For regular development, use the standard test command for better performance.
 
+### Using Test Aliases
+
+For convenience, the Docker container includes executable scripts for running tests:
+
+```bash
+# Run tests without coverage (faster)
+docker-compose -f develop-docker-compose.yaml exec api-helper test
+
+# Run tests with coverage report
+docker-compose -f develop-docker-compose.yaml exec api-helper test-coverage
+```
+
+These commands can be run directly from your host machine without entering the container.
+
+You can also use them inside the container:
+
+```bash
+docker exec -it api-helper bash
+test  # Run tests without coverage
+test-coverage  # Run tests with coverage
+```
+
 ### Development Workflow
 
 1. Make changes to the code on your host machine
