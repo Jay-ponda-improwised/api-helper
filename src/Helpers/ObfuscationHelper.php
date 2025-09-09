@@ -7,6 +7,11 @@ class ObfuscationHelper
 
     public static function obfuscate($string, $visibleChars = 4)
     {
+        // Handle null input
+        if ($string === null) {
+            return '';
+        }
+        
         $len = strlen($string);
         $visible = substr($string, ($visibleChars * -1));
         return str_pad($visible, $len, '*', STR_PAD_LEFT);
@@ -14,6 +19,11 @@ class ObfuscationHelper
 
     public static function obfuscateEmail($email)
     {
+        // Handle null input
+        if ($email === null) {
+            return '';
+        }
+        
         $em = explode("@", $email);
         $name = implode('@', array_slice($em, 0, (count($em) - 1)));
         $len = (strlen($name) - 1);

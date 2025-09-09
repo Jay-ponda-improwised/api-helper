@@ -5,7 +5,7 @@
     <img src="https://staging-ipromote.ldex.co/ctm/LDE_Logo-Black.png" alt="Logo" width="" height="80">
   </a>
 
-  <h3 align="center">Api Helper Package</h3>
+  <h3 align="center">Api Helper Package - Developer Guide</h3>
 
   <p align="center">
     A package to consume api smoothly
@@ -32,6 +32,13 @@
 * [Usage](#usage)
   * [Methods](#methods)
 * [Response](#response)
+* [Docker Development Setup](#docker-development-setup)
+  * [Prerequisites](#prerequisites)
+  * [Getting Started](#getting-started-1)
+  * [Volume Mounting](#volume-mounting)
+  * [Running Tests](#running-tests)
+  * [Running Tests with Coverage](#running-tests-with-coverage)
+  * [Development Workflow](#development-workflow)
 		
 
 ## Getting Started    
@@ -119,3 +126,80 @@ This package is useful to consume API's, here is the instruction for installatio
 - Here you will get object in response, In each response you will get success either true or false
 - You will also get status code for more information about response please check below doc.
 - http://docs.guzzlephp.org/en/latest/psr7.html#responses
+
+## Docker Development Setup
+
+This package includes a Docker development environment for easier testing and development.
+
+### Prerequisites
+
+- Docker and Docker Compose installed on your system
+
+### Getting Started
+
+1. Build and start the Docker container:
+   ```bash
+   docker-compose -f develop-docker-compose.yaml up -d
+   ```
+
+2. Enter the container to work with the code:
+   ```bash
+   docker exec -it api-helper bash
+   ```
+
+3. Inside the container, the package will automatically install dependencies using Composer on first run.
+
+### Volume Mounting
+
+The current directory is mounted to `/app` in the container. The `vendor` directory is excluded from the volume mount to prevent conflicts between host and container dependencies.
+
+### Running Tests
+
+You can run the PHPUnit tests using our optimized wrapper script:
+
+```bash
+docker exec api-helper /usr/local/bin/run-tests.sh
+```
+
+The tests run without Xdebug by default for better performance. PCOV is used for code coverage collection when needed.
+The tests use the `develop.phpunit.xml` configuration file which is optimized for the Docker development environment.
+
+### Running Tests with Coverage
+
+To run tests with code coverage reporting:
+
+```bash
+docker exec api-helper /usr/local/bin/run-tests.sh coverage
+```
+
+This will generate an HTML coverage report in the `coverage` directory, which you can view by opening `coverage/index.html` in a web browser.
+
+Note: Coverage reports require Xdebug to be enabled, which will slow down test execution. For regular development, use the standard test command for better performance.
+
+### Using Test Aliases
+
+For convenience, the Docker container includes executable scripts for running tests:
+
+```bash
+# Run tests without coverage (faster)
+docker-compose -f develop-docker-compose.yaml exec api-helper test
+
+# Run tests with coverage report
+docker-compose -f develop-docker-compose.yaml exec api-helper test-coverage
+```
+
+These commands can be run directly from your host machine without entering the container.
+
+You can also use them inside the container:
+
+```bash
+docker exec -it api-helper bash
+test  # Run tests without coverage
+test-coverage  # Run tests with coverage
+```
+
+### Development Workflow
+
+1. Make changes to the code on your host machine
+2. The changes will be immediately reflected in the container
+3. Run tests or other commands inside the container as needed
