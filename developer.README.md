@@ -139,7 +139,7 @@ This package includes a Docker development environment for easier testing and de
 
 1. Build and start the Docker container:
    ```bash
-   docker-compose -f dev-docker-compose.yaml up -d
+   docker-compose -f develop-docker-compose.yaml up -d
    ```
 
 2. Enter the container to work with the code:
@@ -162,7 +162,7 @@ docker exec api-helper /usr/local/bin/run-tests.sh
 ```
 
 The tests run without Xdebug by default for better performance. PCOV is used for code coverage collection when needed.
-The tests use the `dev.phpunit.xml` configuration file which is optimized for the Docker development environment.
+The tests use the `develop.phpunit.xml` configuration file which is optimized for the Docker development environment.
 
 ### Running Tests with Coverage
 
@@ -175,6 +175,28 @@ docker exec api-helper /usr/local/bin/run-tests.sh coverage
 This will generate an HTML coverage report in the `coverage` directory, which you can view by opening `coverage/index.html` in a web browser.
 
 Note: Coverage reports require Xdebug to be enabled, which will slow down test execution. For regular development, use the standard test command for better performance.
+
+### Using Test Aliases
+
+For convenience, the Docker container includes executable scripts for running tests:
+
+```bash
+# Run tests without coverage (faster)
+docker-compose -f develop-docker-compose.yaml exec api-helper test
+
+# Run tests with coverage report
+docker-compose -f develop-docker-compose.yaml exec api-helper test-coverage
+```
+
+These commands can be run directly from your host machine without entering the container.
+
+You can also use them inside the container:
+
+```bash
+docker exec -it api-helper bash
+test  # Run tests without coverage
+test-coverage  # Run tests with coverage
+```
 
 ### Development Workflow
 

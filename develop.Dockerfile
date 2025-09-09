@@ -45,12 +45,18 @@ export PHP_IDE_CONFIG=\n\
 # Enable Xdebug only when needed for coverage\n\
 if [ "$1" = "coverage" ]; then\n\
     echo "Enabling Xdebug for coverage report..."\n\
-    php -d xdebug.mode=coverage ./vendor/bin/phpunit --configuration dev.phpunit.xml --coverage-html=coverage\n\
+    php -d xdebug.mode=coverage ./vendor/bin/phpunit --configuration develop.phpunit.xml --coverage-html=coverage\n\
 else\n\
     # Run tests without Xdebug for better performance\n\
     echo "Running tests without Xdebug for better performance..."\n\
-    php -n -d extension=/usr/local/lib/php/extensions/no-debug-non-zts-20190902/pcov.so ./vendor/bin/phpunit --configuration dev.phpunit.xml\n\
+    php -n -d extension=/usr/local/lib/php/extensions/no-debug-non-zts-20190902/pcov.so ./vendor/bin/phpunit --configuration develop.phpunit.xml\n\
 fi' > /usr/local/bin/run-tests.sh && chmod +x /usr/local/bin/run-tests.sh
+
+# Create executable scripts for easier test command execution
+RUN echo '#!/bin/bash\n\
+/usr/local/bin/run-tests.sh "$@"' > /usr/local/bin/test && chmod +x /usr/local/bin/test && \
+echo '#!/bin/bash\n\
+/usr/local/bin/run-tests.sh coverage "$@"' > /usr/local/bin/test-coverage && chmod +x /usr/local/bin/test-coverage
 
 # Keep container running
 CMD ["/start.sh"]
