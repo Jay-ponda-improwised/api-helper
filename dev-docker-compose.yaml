@@ -1,8 +1,10 @@
 services:
   api-helper:
-    image: circleci/php:7.4
+    build:
+      context: .
+      dockerfile: develop.Dockerfile
     container_name: api-helper
     working_dir: /app
-    command: sleep infinity
     volumes:
       - .:/app
+      - /app/vendor
