@@ -139,7 +139,7 @@ This package includes a Docker development environment for easier testing and de
 
 1. Build and start the Docker container:
    ```bash
-   docker-compose -f dev-docker-compose.yaml up -d
+   docker-compose -f develop-docker-compose.yaml up -d
    ```
 
 2. Enter the container to work with the code:
@@ -162,7 +162,7 @@ docker exec api-helper /usr/local/bin/run-tests.sh
 ```
 
 The tests run without Xdebug by default for better performance. PCOV is used for code coverage collection when needed.
-The tests use the `dev.phpunit.xml` configuration file which is optimized for the Docker development environment.
+The tests use the `develop.phpunit.xml` configuration file which is optimized for the Docker development environment.
 
 ### Running Tests with Coverage
 
